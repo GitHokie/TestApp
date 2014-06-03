@@ -1,0 +1,63 @@
+﻿
+
+<div data-role="view" id="button-home" data-title="3 Buttons">
+ <br /> 
+    <a class="button" data-role="button" href="#button-home" style="color: #fff; background-color: #f60">Home</a><a class="button" data-role="button" href="#facility">Button 1</a><a class="button" data-role="button" href="#sports">Button 2</a>
+    <ul data-role="listview" data-style="inset">
+        <li>
+            <p>Our great content here.</p>
+        </li>
+    </ul>
+</div>
+
+<div data-role="view" id="facility" data-title="Facility">
+ <br /> 
+    <a class="button" data-role="button" href="#button-home">Home</a><a class="button" data-role="button" href="#facility" style="color: #fff; background-color: #f60">Button 1</a><a class="button" data-role="button" href="#sports">Button 2</a>
+    <ul data-role="listview" data-style="inset">
+        <li>
+             <p>Our great content here 2.</p>
+        </li>
+    </ul>
+</div>
+
+<div data-role="view" id="sports" data-title="Sports">
+ <br /> 
+    <a class="button" data-role="button" href="#button-home">Home</a><a class="button" data-role="button" href="#facility">Button 1</a><a class="button" data-role="button" href="#sports" style="color: #fff; background-color: #f60">Button 2</a>
+    <ul data-role="listview" data-style="inset">
+       <li>Example</li>
+       <li>Example</li>    
+       <li>Example</li>
+       <li>Example</li>
+    </ul>
+</div>
+
+<style scoped>
+.button {
+    margin-left: .5em;
+    text-align: center;
+}
+.button:first-of-type {
+    margin-left: 1em;
+}
+
+#button-home .head,
+#facility .head,
+#sports .head {
+	display: block;
+	margin: 1em;
+	height: 120px;
+    -webkit-background-size: 100% auto;
+    background-size: 100% auto;
+}
+.km-ios .head,
+.km-blackberry .head {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+</style>
+
+<script>
+    $("#home-link").kendoMobileButton();
+</script>
+
+

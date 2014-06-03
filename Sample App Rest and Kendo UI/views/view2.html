@@ -1,0 +1,87 @@
+<div data-role="view" id="remoteView2" data-init="mobileListViewDataBindInitFlat" data-title="All" data-reload="true">
+    <ul id="flat-listview"></ul>
+
+      <header data-role="header">
+        <div data-role="navbar">
+            <span data-role="view-title"></span>
+             <a data-role="button" data-rel="drawer" href="#my-drawer" data-icon="drawer-button" data-align="left"></a>
+               <a data-align="right" data-role="button" class="nav-button" href="views/view2.html">List</a>
+             <a data-align="right" data-role="button" class="nav-button" href="views/view1.html">Group</a>
+            <a data-align="right" data-role="button" class="nav-button" href="views/view4.html">+</a>
+        </div>
+        </header>
+     <ul id="filterable-listview"></ul>
+</div>
+
+
+<!-- <img class="item-photo" src="${url}" /
+    <h3 class="item-title">${name}</h3>
+    <p class="item-info">${description}</p>
+    <a data-role="button" class="details-link">Order</a>-->
+<script type="text/x-kendo-template" id="customListViewTemplate">
+
+    <a href='views/view3.html?id=${id}'>${f_name} ${l_name} : ${company}</a>
+
+
+</script>
+
+<script>
+   
+    var chsDatasource = new kendo.data.DataSource({
+
+        transport: {
+            read: {
+                url: "http://chagrock2.cloudapp.net/service.svc/sample/",
+                dataType: "jsonp",
+            }
+
+        },
+        schema: {
+            data: function (data) {
+                return data;
+            }
+        },
+        //group: { field: 'group_by_lname' }
+
+    });
+
+
+        //var groupedData = [
+        //    { name: "Sashimi salad", letter: "S" },
+        //    { name: "Chirashi sushi", letter: "C" },
+        //    { name: "Seaweed salad", letter: "S" },
+        //    { name: "Edamame", letter: "E" },
+        //    { name: "Miso soup", letter: "M" },
+        //    { name: "Maguro", letter: "M" },
+        //    { name: "Shake", letter: "S" },
+        //    { name: "Shiromi", letter: "S" },
+        //    { name: "Tekka maki", letter: "T" },
+        //    { name: "Hosomaki Mix", letter: "H" },
+        //    { name: "California rolls", letter: "C" },
+        //    { name: "Seattle rolls", letter: "S" },
+        //    { name: "Spicy Tuna rolls", letter: "S" },
+        //    { name: "Ebi rolls", letter: "E" },
+        //    { name: "Chicken Teriyaki", letter: "C" },
+        //    { name: "Salmon Teriyaki", letter: "S" },
+        //    { name: "Gohan", letter: "G" },
+        //    { name: "Tori Katsu", letter: "T" },
+        //    { name: "Yaki Udon", letter: "Y" }
+        //];
+
+
+        //var flatData = ["Sashimi salad", "Chirashi sushi", "Seaweed salad", "Edamame", "Miso soup", "Maguro", "Shake", "Shiromi", "Tekka maki", "Hosomaki Mix", "California rolls", "Seattle rolls", "Spicy Tuna rolls", "Ebi rolls", "Chicken Teriyaki", "Salmon Teriyaki", "Gohan", "Tori Katsu", "Yaki Udon"];
+
+        function mobileListViewDataBindInitFlat() {
+
+            $("#flat-listview").kendoMobileListView({
+                dataSource: chsDatasource,
+                //template: "${company}",
+                template: $("#customListViewTemplate").html(),
+                fixedHeaders: true
+
+            });
+        }
+
+   
+</script>
+

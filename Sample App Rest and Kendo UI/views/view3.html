@@ -1,0 +1,169 @@
+<div id="remoteView3" data-role="view" data-title="Record Detail" data-init="callme" data-reload="true">
+    
+       <header data-role="header">
+        <div data-role="navbar">
+            <span data-role="view-title"></span>
+            <a data-role="button" data-rel="drawer" href="#my-drawer" data-icon="drawer-button" data-align="left"></a>
+            <a data-align="right" data-role="button" class="nav-button" href="views/view2.html">Back</a>
+
+      
+        </div>
+        </header>
+
+  <ul data-role="listview" data-style="inset" data-type="group" >
+     <li>Profile
+            <ul>
+               
+                 <li>First Name: <div id="var_f_name"></div></li>
+                 <li>Last Name: <div id="var_l_name"></div></li>
+                 <li>Company: <div id="var_company"></div></li>
+
+                    <li>DDL 1: <div id="var_ddl_1"></div></li>
+                    <li>DDL 2: <div id="var_ddl_2"></div></li>
+                    <li>Slider: <div id="var_slider_1"></div></li>
+                    <li>Password: <div id="var_password_1"></div></li>
+                    <li>Search: <div id="var_search_1"></div></li>
+                    <li>URL: <div id="var_url_1"></div></li>
+                    <li>Email: <div id="var_email_1"></div></li>
+                    <li>Number: <div id="var_number_1"></div></li>
+                    <li>Tel: <div id="var_tel_1"></div></li>
+                    <li>Date: <div id="var_date_1"></div></li>
+                    <li>Time: <div id="var_time_1"></div></li>
+                    <li>Month: <div id="var_month_1"></div></li>
+                    <li>Date Time: <div id="var_datetime_1"></div></li>
+                    <li>Date Time Local: <div id="var_datetimelocal_1"></div></li>
+                    <li>Text Area: <div id="var_txtarea_1"></div></li>
+                    <li>Switch 1: <div id="var_switch_1"></div></li>
+                    <li>Switch 2: <div id="var_switch_2"></div></li>
+
+            </ul>
+        </li>
+  </ul>
+  
+    <ul data-role="listview" data-source="inbox" data-template="inboxItem" data-style="inset"></ul>
+
+    <ul data-role="actionsheet" id="inboxActions" data-open="onOpen" data-popup='{"direction": "left"}'>
+        <li><a href="#" data-action="update_record">Update</a></li>
+        <li><a href="#" data-action="delete_record">Delete</a></li>
+    </ul>
+</div>
+
+<script type="script/x-kendo-template" id="inboxItem">
+    <a 
+         data-role="button"
+        data-rel="actionsheet"
+        href="\\#inboxActions" width="100"
+       >Choose Data Actions</a>
+</script>
+
+<script>
+    var inbox = [{ID: 1}];
+
+    function callme() {
+
+        var vars = [], hash;
+        var q = document.URL.split('?')[1];
+        if (q != undefined) {
+            q = q.split('&');
+            for (var i = 0; i < q.length; i++) {
+                hash = q[i].split('=');
+                vars.push(hash[1]);
+                vars[hash[0]] = hash[1];
+            }
+        }
+
+
+        $.ajax({
+            //cache: true,
+            url: "http://chagrock2.cloudapp.net/service.svc/sample/" + vars['id'], 
+            data: "{}",
+            type: "GET",
+            contentType: "application/javascript",
+            dataType: "jsonp",
+            error: function () {
+                alert("FAIL!!");
+            },
+            success: function (menu) {
+
+                $.each(menu, function (key, val) {
+
+                    $('#var_company').html(val.company);
+                    $('#var_f_name').html(val.f_name);
+                    $('#var_l_name').html(val.l_name);
+
+                    $('#var_ddl_1').html(val.ddl_1);
+                    $('#var_ddl_2').html(val.ddl_2);
+                    $('#var_slider_1').html(val.slider_1);
+                    $('#var_password_1').html(val.password_1);
+                    $('#var_search_1').html(val.search_1);
+                    $('#var_url_1').html(val.url_1);
+                    $('#var_email_1').html(val.email_1);
+                    $('#var_number_1').html(val.number_1);
+                    $('#var_tel_1').html(val.tel_1);
+                    $('#var_date_1').html(val.date_1);
+                    $('#var_time_1').html(val.time_1);
+                    $('#var_month_1').html(val.month_1);
+                    $('#var_datetime_1').html(val.datetime_1);
+                    $('#var_datetimelocal_1').html(val.datetimelocal_1);
+                    $('#var_txtarea_1').html(val.txtarea_1);
+                    $('#var_switch_1').html(val.switch_1);
+                    $('#var_switch_2').html(val.switch_2);
+
+
+                });
+
+            }
+        });
+
+    }
+
+    function onOpen(e) {
+        this.element.find(".km-actionsheet-title").text(e.target.next().text());
+    }
+
+    function update_record(e) {
+
+        var vars = [], hash;
+        var q = document.URL.split('?')[1];
+        if (q != undefined) {
+            q = q.split('&');
+            for (var i = 0; i < q.length; i++) {
+                hash = q[i].split('=');
+                vars.push(hash[1]);
+                vars[hash[0]] = hash[1];
+            }
+        }
+
+        //$("#actionResult").html("Replying to message #" + e.context);
+
+        app.navigate("views/view4.html?id=" + vars['id']);
+    }
+
+    function delete_record(e) {
+
+        var vars = [], hash;
+        var q = document.URL.split('?')[1];
+        if (q != undefined) {
+            q = q.split('&');
+            for (var i = 0; i < q.length; i++) {
+                hash = q[i].split('=');
+                vars.push(hash[1]);
+                vars[hash[0]] = hash[1];
+            }
+        }
+
+        var url2 = "http://chagrock2.cloudapp.net/service.svc/sample_delete?id=" + vars['id'];
+
+        //alert(url2);
+        $.post(url2, function () {
+
+            //I THINK THIS DOES NOT FIRE SINCE NO DATA RETURNED FROM API
+            //alert('WORKED!!');
+        })
+
+        app.navigate("");
+
+    }
+    
+
+</script>

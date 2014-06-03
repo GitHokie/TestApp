@@ -1,0 +1,277 @@
+<div id="remoteView4" data-role="view" data-title="Create New Record" data-init="loadvalues" data-reload="true">
+     <form action="./index.html">
+        <ul data-role="listview" data-style="inset">
+           
+            <li>
+                <label>First Name
+                    <input type="text" id="f_name" onclick="clearvalue('f_name')" />
+                </label>
+            </li>
+            <li>
+                <label>Last Name
+                     <input type="text" id="l_name" onclick="clearvalue('l_name')"/>
+                </label>
+            </li>
+            <li>
+                <label>Company
+                     <input type="text" id="company" onclick="clearvalue('company')"/>
+                </label>
+            </li>
+            <li>
+                <label>DDL 1
+                     <select id="ddl_1">
+                        <option value="First Option">First Option</option>
+                        <option value="Second Option">Second Option</option>
+                        <option value="Third Option">Third Option</option>
+                        <option value="Fourth Option">Fourth Option</option>
+                    </select>
+                </label>
+            </li>
+             <li>
+                <label>DDL 2
+                      <select id="ddl_2">
+                        <option value="First Option">First Option</option>
+                        <option value="Second Option">Second Option</option>
+                        <option value="Third Option">Third Option</option>
+                        <option value="Fourth Option">Fourth Option</option>
+                        <option value="First Option">Fifth Option</option>
+                        <option value="Sixth Option">Sixth Option</option>
+                    </select>
+
+                </label>
+            </li>
+             <li>
+                <label>Slider
+                     <input id="slider_1"  type="range" max="100" onclick="clearvalue('slider_1')"/>
+                </label>
+            </li>
+             <li>
+                <label>Password
+                     <input type="password" id="password_1" onclick="clearvalue('password_1')"/>
+                </label>
+            </li>
+             <li>
+                <label>Search
+                     <input type="search" id="search_1" onclick="clearvalue('search_1')"/>
+                </label>
+            </li>
+             <li>
+                <label>URL
+                     <input type="url" id="url_1" onclick="clearvalue('url_1')"/>
+                </label>
+            </li>
+             <li>
+                <label>Email
+                     <input type="email" id="email_1" onclick="clearvalue('email_1')"/>
+                </label>
+            </li>
+             <li>
+                <label>Number 
+                     <input type="number" id="number_1" onclick="clearvalue('number_1')"/>
+                </label>
+            </li>
+             <li>
+                <label>Telephone
+                     <input type="tel" id="tel_1" onclick="clearvalue('tel_1')"/>
+                </label>
+            </li>
+             <li>
+                <label>Date
+                     <input type="date" id="date_1" onclick="clearvalue('date_1')"/>
+                </label>
+            </li>
+             <li>
+                <label>Time
+                     <input type="time" id="time_1" onclick="clearvalue('time_1')"/>
+                </label>
+            </li>
+             <li>
+                <label>Month
+                     <input type="month" id="month_1" onclick="clearvalue('month_1')"/>
+                </label>
+            </li>
+             <li>
+                <label>Date Time
+                     <input type="datetime" id="datetime_1" onclick="clearvalue('datetime_1')"/>
+                </label>
+            </li>
+             <li>
+                <label>Date Time Local
+                     <input type="datetime-local" id="datetimelocal_1" onclick="clearvalue('datetimelocal_1')"/>
+                </label>
+            </li>
+             <li>
+                <label>Text Area
+                       <textarea style="resize: none" id="txtarea_1" onclick="clearvalue('txtarea_1')"></textarea>
+                </label>
+            </li>
+            <li>Swith 1
+            <label>
+                Switch 1<input id="switch_1"  data-role="switch" />
+            </label>
+                </li>
+            
+            <li>Swith 2
+            <label>
+                Switch 2<input id="switch_2"  data-role="switch" />
+            </label>
+                </li>
+    
+
+            
+        </ul>
+          <a data-role="button" class="nav-button" onclick="submitFunction()" style="width: 50%;">Submit</a>
+    </form>
+</div>
+
+<script>
+
+    function loadvalues() {
+
+        //Get Query String Value
+        var vars = [], hash;
+        var q = document.URL.split('?')[1];
+        if (q != undefined) {
+            q = q.split('&');
+            for (var i = 0; i < q.length; i++) {
+                hash = q[i].split('=');
+                vars.push(hash[1]);
+                vars[hash[0]] = hash[1];
+            }
+        }
+
+        //This means it is NEW record
+        if (vars['id'] == undefined) {
+
+            $("#f_name").val("First Name Here");
+            $("#l_name").val("Last Name Here");
+            $("#company").val("Company Here");
+            $("#ddl_1").val("Please Select");
+            $("#ddl_2").val("Please Select");
+            $("#slider_1").val("0");
+            $("#password_1").val("My Password");
+            $("#search_1").val("Search Here");
+            $("#url_1").val("www.URL.com");
+            $("#email_1").val("email@email.com");
+            $("#number_1").val("123456");
+            $("#tel_1").val("555-555-5555");
+            $("#date_1").val("1900-01-01");
+            $("#time_1").val("01:00");
+            $("#month_1").val("1900-01");
+            $("#datetime_1").val("01:00:00");
+            $("#datetimelocal_1").val("1900-01-01T01:00:00");
+            $("#txtarea_1").val("Text Area");
+
+        }
+        else {
+
+            //Goes and gets the values for the update
+            $.ajax({
+                //cache: true,
+                url: "http://chagrock2.cloudapp.net/service.svc/sample/" + vars['id'],
+                data: "{}",
+                type: "GET",
+                contentType: "application/javascript",
+                dataType: "jsonp",
+                error: function () {
+                    alert("FAIL!!");
+                },
+                success: function (menu) {
+
+                    $.each(menu, function (key, val) {
+
+                        $('#company').val(val.company);
+                        $('#f_name').val(val.f_name);
+                        $('#l_name').val(val.l_name);
+                        $('#ddl_1').val(val.ddl_1);
+                        $('#ddl_2').val(val.ddl_2);
+                        $('#slider_1').val(val.slider_1);
+                        $('#password_1').val(val.password_1);
+                        $('#search_1').val(val.search_1);
+                        $('#url_1').val(val.url_1);
+                        $('#email_1').val(val.email_1);
+                        $('#number_1').val(val.number_1);
+                        $('#tel_1').val(val.tel_1);
+                        $('#date_1').val(val.date_1);
+                        $('#time_1').val(val.time_1);
+                        $('#month_1').val(val.month_1);
+                        $('#datetime_1').val(val.datetime_1);
+                        $('#datetimelocal_1').val(val.datetimelocal_1);
+                        $('#txtarea_1').val(val.txtarea_1);
+
+                        if (val.switch_1.trim() == "true") {
+                           
+                            $("#switch_1").kendoMobileSwitch({
+                                checked: true
+                            });
+                        }
+                        else {
+                           
+                            $("#switch_1").kendoMobileSwitch({
+                                checked: false
+                            });
+                        }
+
+                        if (val.switch_2.trim() == "true") {
+                           
+                            $("#switch_2").kendoMobileSwitch({
+                                checked: true
+                          
+                            });
+                        }
+                        else {
+                         
+                            $("#switch_2").kendoMobileSwitch({
+                                checked: false
+                            });
+                        }
+
+
+                    });
+
+                }
+            });
+
+        }
+
+    }
+    
+    function clearvalue(txtbox) {
+   
+        $("#" + txtbox).val("");
+    }
+
+    function submitFunction() {
+  
+        //Get Query String Value
+        var vars = [], hash;
+        var q = document.URL.split('?')[1];
+        if (q != undefined) {
+            q = q.split('&');
+            for (var i = 0; i < q.length; i++) {
+                hash = q[i].split('=');
+                vars.push(hash[1]);
+                vars[hash[0]] = hash[1];
+            }
+        }
+
+        //This means it is NEW record
+        if (vars['id'] == undefined) {
+            var url2 = "http://chagrock2.cloudapp.net/service.svc/sample?f_name=" + $("#f_name").val() + "&l_name=" + $("#l_name").val() + "&company=" + $("#company").val() + "&ddl_1=" + $("#ddl_1").val() + "&ddl_2=" + $("#ddl_2").val() + "&slider_1=" + $("#slider_1").val() + "&password_1=" + $("#password_1").val() + "&search_1=" + $("#search_1").val() + "&url_1=" + $("#url_1").val() + "&email_1=" + $("#email_1").val() + "&number_1=" + $("#number_1").val() + "&tel_1=" + $("#tel_1").val() + "&date_1=" + $("#date_1").val() + "&time_1=" + $("#time_1").val() + "&month_1=" + $("#month_1").val() + "&datetime_1=" + $("#datetime_1").val() + "&datetimelocal_1=" + $("#datetimelocal_1").val() + "&txtarea_1=" + $("#txtarea_1").val() + "&switch_1=" + $("#switch_1").val() + "&switch_2=" + $("#switch_2").val();
+        }
+        else {
+            var url2 = "http://chagrock2.cloudapp.net/service.svc/sample_update?f_name=" + $("#f_name").val() + "&l_name=" + $("#l_name").val() + "&company=" + $("#company").val() + "&ddl_1=" + $("#ddl_1").val() + "&ddl_2=" + $("#ddl_2").val() + "&slider_1=" + $("#slider_1").val() + "&password_1=" + $("#password_1").val() + "&search_1=" + $("#search_1").val() + "&url_1=" + $("#url_1").val() + "&email_1=" + $("#email_1").val() + "&number_1=" + $("#number_1").val() + "&tel_1=" + $("#tel_1").val() + "&date_1=" + $("#date_1").val() + "&time_1=" + $("#time_1").val() + "&month_1=" + $("#month_1").val() + "&datetime_1=" + $("#datetime_1").val() + "&datetimelocal_1=" + $("#datetimelocal_1").val() + "&txtarea_1=" + $("#txtarea_1").val() + "&switch_1=" + $("#switch_1").val() + "&switch_2=" + $("#switch_2").val() + "&id=" + vars['id'];
+        }
+    
+
+        $.post(url2, function () {
+
+           //I THINK THIS DOES NOT FIRE SINCE NO DATA RETURNED FROM API
+           //alert('WORKED!!');
+        })
+
+        app.navigate(""); 
+    
+    }
+</script>
+
